@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Interview Deck
 
-## Getting Started
+Фронтенд-застосунок для проведення технічних співбесід: вставляєте питання текстом, редагуєте список, проводите співбесіду у форматі слайдів, ставите оцінки 1–10 і зберігаєте результат у файл.
 
-First, run the development server:
+Бекенду немає — усе зберігається в `localStorage` браузера.
+
+## Запуск
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev     # http://localhost:3000
+npm run build   # продакшн-збірка
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Деплой на Vercel
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Запуште репозиторій на GitHub / GitLab / Bitbucket.
+2. На [vercel.com/new](https://vercel.com/new) імпортуйте репозиторій — Next.js визначиться автоматично, налаштування не потрібні.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Або через CLI: `npx vercel` (прев’ю) / `npx vercel --prod`.
 
-## Learn More
+## Формат питань
 
-To learn more about Next.js, take a look at the following resources:
+```
+1. Назва питання
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Рівень: Middle та вище
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Питання: Текст питання до кандидата
 
-## Deploy on Vercel
+Уточнення: Додаткове питання
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Що спостерігаємо: На що звертаємо увагу у відповіді
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Порожні рядки між полями необов’язкові, поля можуть бути багаторядковими.
+- Підтримуються мітки з `**жирним**`, нумеровані списки всередині полів, текст без нумерації.
+- Також можна відкрити `.txt` / `.md` з таким текстом або `.json`, збережений застосунком.
+
+## Під час співбесіди
+
+| Клавіша | Дія |
+| --- | --- |
+| `←` / `→` | попереднє / наступне питання |
+| `1`–`9`, `0` | оцінка (0 = 10) |
+
+Блок «Що спостерігаємо» можна сховати, якщо показуєте екран кандидату.
+
+## Результат
+
+Середній бал, сума, відсоток, розбивка за рівнями, нотатки і загальний висновок. Зберігається у `.md` або `.json`, також можна надрукувати / зберегти як PDF.
+
+## Структура
+
+- `src/lib/parse.ts` — парсер тексту питань
+- `src/lib/state.ts` — стан застосунку (reducer + localStorage)
+- `src/lib/export.ts` — експорт результату в Markdown / JSON
+- `src/components/SetupView.tsx` — додавання та редагування питань
+- `src/components/InterviewView.tsx` — слайди та оцінювання
+- `src/components/ResultsView.tsx` — підсумок і збереження
